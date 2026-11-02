@@ -17,8 +17,17 @@ struct ContentView: View {
                         .font(.title)
                         .border(.tertiary, width: 1)
                     
+                    Picker("Select a caption font", selection: $document.font) {
+                        ForEach(fonts, id: \.self, content: Text.init)
+                    }
+                    
+                    Picker("Size of caption font", selection: $document.fontSize) {
+                        ForEach(Array(stride(from: 12, through: 72, by: 4)), id: \.self) { size in
+                            Text("\(size)pt")
+                        }
+                    }
                 }
-                
+                .labelsHidden()
             }
             .frame(width: 250)
         }

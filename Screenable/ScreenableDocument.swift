@@ -15,9 +15,13 @@ final class ScreenableDocument: Document {
     ]
 
     var caption = ""
+    var font = "Helvetica Neue"
+    var fontSize = 16
 
     struct Snapshot: Codable, Sendable {
         var caption: String
+        var font: String
+        var fontSize: Int
     }
 
     // MARK: - Reading
@@ -51,7 +55,7 @@ final class ScreenableDocument: Document {
     func snapshot(
         contentType: UTType
     ) async throws -> sending Snapshot {
-        Snapshot(caption: caption)
+        Snapshot(caption: caption, font: font, fontSize: fontSize)
     }
 
     func writer(

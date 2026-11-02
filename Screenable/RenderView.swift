@@ -42,6 +42,7 @@ struct RenderView: View {
         } symbols: {
             // add custom SwiftUI views
             Text(document.caption)
+                .font(.custom(document.font, size: Double(document.fontSize)))
                 .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
                 .tag("Text")
