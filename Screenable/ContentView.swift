@@ -1,17 +1,10 @@
 import SwiftUI
-import Playgrounds
 
 struct ContentView: View {
+    @Bindable var document: ScreenableDocument
+
     var body: some View {
-        Text("Hello, world!")
+        TextEditor(text: $document.caption)
             .padding()
     }
-}
-
-#Preview {
-    ContentView()
-}
-
-#Playground {
-    _ = 1 + 2
 }
