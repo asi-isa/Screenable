@@ -50,28 +50,30 @@ struct ContentView: View {
         .padding()
     }
     
-    // 1. We accept an array of NSItemProviders that might contain file URLs
+    
     func handleDrop(providers: [NSItemProvider]) -> Bool {
-        // 2. We only care about the first item; bail out if we can't read that
-        guard let item = providers.first else { return false }
-       
-        // 3. Load the first item
-        item.loadItem(forTypeIdentifier: UTType.fileURL.identifier, options: nil) { data, error in
-            // 4. if it succeeds, convert the data into a URL
-            if let data = data as? Data {
-                guard let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
-                // 5. Load the URL into a Data object
-                let loadedImage = try? Data(contentsOf: url)
-                // 6. Copy the data into our userImage property
-                Task { @MainActor in
-                    document.userImage = loadedImage
-                }
+        guard let provider = providers.first,
+              provider.canLoadObject(ofClass: URL.self)
+        else {
+            return false
+        }
+
+        let _ = provider.loadObject(ofClass: URL.self) { url, error in
+            guard let url,
+                  url.isFileURL,
+                  let imageData = try? Data(contentsOf: url)
+            else {
+                return
+            }
+
+            Task { @MainActor in
+                document.userImage = imageData
             }
         }
-        
-        // 7. Signal that the drop was received successfully
+
         return true
     }
+
 }
 
 #Preview {
