@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Bindable var document: ScreenableDocument
+    let fonts = Bundle.main.loadStringArray(from: "Fonts.txt")
 
     var body: some View {
         HStack(spacing: 20) {
