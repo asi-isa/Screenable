@@ -19,6 +19,9 @@ final class ScreenableDocument: Document {
     var fontSize = 16
     var backgroundImage = ""
     var userImage: Data?
+    var captionColor = Color.black
+    var backgroundColorTop = Color.clear
+    var backgroundColorBottom = Color.clear
 
     struct Snapshot: Codable, Sendable {
         var caption: String
@@ -26,6 +29,9 @@ final class ScreenableDocument: Document {
         var fontSize: Int
         var backgroundImage: String
         var userImage: Data?
+        var captionColor: Color
+        var backgroundColorTop: Color
+        var backgroundColorBottom: Color
     }
 
     // MARK: - Reading
@@ -64,7 +70,10 @@ final class ScreenableDocument: Document {
             font: font,
             fontSize: fontSize,
             backgroundImage: backgroundImage,
-            userImage: userImage
+            userImage: userImage,
+            captionColor: captionColor,
+            backgroundColorTop: backgroundColorTop,
+            backgroundColorBottom: backgroundColorBottom
         )
     }
 

@@ -20,8 +20,12 @@ struct ContentView: View {
                         .font(.title)
                         .border(.tertiary, width: 1)
                     
-                    Picker("Select a caption font", selection: $document.font) {
-                        ForEach(fonts, id: \.self, content: Text.init)
+                    HStack {
+                        Picker("Select a caption font", selection: $document.font) {
+                            ForEach(fonts, id: \.self, content: Text.init)
+                        }
+                        
+                        ColorPicker("Caption color", selection: $document.captionColor)
                     }
                     
                     Picker("Size of caption font", selection: $document.fontSize) {
@@ -44,6 +48,19 @@ struct ContentView: View {
                     }
                 }
                 .labelsHidden()
+                
+                VStack(alignment: .leading) {
+                    Text("Background color")
+                        .bold()
+                    
+                    Text("If set to non-transparent, this will be drawn over the background image.")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    HStack(spacing: 20) {
+                        ColorPicker("Start:", selection: $document.backgroundColorTop)
+                        ColorPicker("End:", selection: $document.backgroundColorBottom)
+                    }
+                }
             }
             .frame(width: 250)
         }

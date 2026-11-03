@@ -27,6 +27,11 @@ struct RenderView: View {
             }
             
             // add a gradient
+            context.fill(fullSizePath,
+                         with: .linearGradient(
+                            Gradient(colors: [document.backgroundColorTop, document.backgroundColorBottom]),
+                               startPoint: .zero,
+                               endPoint: CGPoint(x: 0, y: size.height)))
             
             // draw the caption
             if document.caption.isEmpty == false {
@@ -51,7 +56,7 @@ struct RenderView: View {
 
             Text(document.caption)
                 .font(.custom(document.font, size: Double(document.fontSize)))
-                .foregroundStyle(.black)
+                .foregroundStyle(document.captionColor)
                 .multilineTextAlignment(.center)
                 .tag("Text")
             
