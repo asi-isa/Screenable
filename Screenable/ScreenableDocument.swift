@@ -22,6 +22,8 @@ final class ScreenableDocument: Document {
     var captionColor = Color.black
     var backgroundColorTop = Color.clear
     var backgroundColorBottom = Color.clear
+    var dropShadowLocation = 0
+    var dropShadowStrength = 1
 
     struct Snapshot: Codable, Sendable {
         var caption: String
@@ -32,6 +34,8 @@ final class ScreenableDocument: Document {
         var captionColor: Color
         var backgroundColorTop: Color
         var backgroundColorBottom: Color
+        var dropShadowLocation: Int
+        var dropShadowStrength: Int
     }
 
     // MARK: - Reading
@@ -57,6 +61,15 @@ final class ScreenableDocument: Document {
         previous: sending Snapshot?
     ) async throws {
         caption = snapshot.caption
+        font = snapshot.font
+        fontSize = snapshot.fontSize
+        backgroundImage = snapshot.backgroundImage
+        userImage = snapshot.userImage
+        captionColor = snapshot.captionColor
+        backgroundColorTop = snapshot.backgroundColorTop
+        backgroundColorBottom = snapshot.backgroundColorBottom
+        dropShadowLocation = snapshot.dropShadowLocation
+        dropShadowStrength = snapshot.dropShadowStrength
     }
 
     // MARK: - Writing
@@ -73,7 +86,9 @@ final class ScreenableDocument: Document {
             userImage: userImage,
             captionColor: captionColor,
             backgroundColorTop: backgroundColorTop,
-            backgroundColorBottom: backgroundColorBottom
+            backgroundColorBottom: backgroundColorBottom,
+            dropShadowLocation: dropShadowLocation,
+            dropShadowStrength: dropShadowStrength
         )
     }
 

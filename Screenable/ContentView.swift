@@ -61,6 +61,22 @@ struct ContentView: View {
                         ColorPicker("End:", selection: $document.backgroundColorBottom)
                     }
                 }
+                
+                VStack(alignment: .leading) {
+                    Text("Drop shadow")
+                        .bold()
+                    
+                    Picker("Drop shadow location", selection: $document.dropShadowLocation) {
+                        Text("None").tag(0)
+                        Text("Text").tag(1)
+                        Text("Device").tag(2)
+                        Text("Both").tag(3)
+                    }
+                    .pickerStyle(.segmented)
+                    .labelsHidden()
+                    
+                    Stepper("Shadow radius: \(document.dropShadowStrength)pt", value: $document.dropShadowStrength, in: 1...20)
+                }
             }
             .frame(width: 250)
         }

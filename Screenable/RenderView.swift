@@ -46,17 +46,32 @@ struct RenderView: View {
             }
            
             // draw the phone
+            if document.dropShadowLocation > 1 {
+                var contextCopy = context
+                contextCopy.addFilter(.shadow(color: .black, radius:
+                                                Double(document.dropShadowStrength)))
+                contextCopy.addFilter(.shadow(color: .black, radius:
+                                                Double(document.dropShadowStrength)))
+                contextCopy.draw(Image("iPhone"), in: CGRect(origin:
+                                                                CGPoint(x: horizontalOffset, y: verticalOffset), size:
+                                                                phoneSize))
+            }
+            
             if let screenshot = context.resolveSymbol(id: "Image") {
                 let drawPosition = CGPoint(x: horizontalOffset + imageInsets.width, y: verticalOffset + imageInsets.height)
                 let drawSize = CGSize(width: phoneSize.width - imageInsets.width * 2, height: phoneSize.height - imageInsets.height * 2)
                 context.draw(screenshot, in: CGRect(origin: drawPosition, size: drawSize))
             }
-            context.draw(Image("iPhone"), in: CGRect(origin: CGPoint(x: horizontalOffset, y: verticalOffset), size: phoneSize))
+            
+            context.draw(Image("iPhone"),
+                         in: CGRect(origin: CGPoint(x: horizontalOffset, y: verticalOffset), size: phoneSize))
         } symbols: {
 
             Text(document.caption)
                 .font(.custom(document.font, size: Double(document.fontSize)))
                 .foregroundStyle(document.captionColor)
+                .shadow(color: document.dropShadowLocation == 1 || document.dropShadowLocation == 3 ? .black : .clear, radius: Double(document.dropShadowStrength))
+                .shadow(color: document.dropShadowLocation == 1 || document.dropShadowLocation == 3 ? .black : .clear, radius: Double(document.dropShadowStrength))
                 .multilineTextAlignment(.center)
                 .tag("Text")
             
