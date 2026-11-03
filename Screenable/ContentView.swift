@@ -10,6 +10,13 @@ struct ContentView: View {
         HStack(spacing: 20) {
             RenderView(document: document)
                 .onDrop(of: [UTType.fileURL], isTargeted: nil, perform: handleDrop)
+                .onDrag {
+                    let url = FileManager.default.temporaryDirectory.appendingPathComponent("ScreenableExport").appendingPathExtension("png")
+                    
+                    try? RenderView(document: document).snapshot()?.write(to: url)
+                    
+                    return NSItemProvider(item: url as NSSecureCoding, typeIdentifier: UTType.fileURL.identifier)
+                }
             
             VStack(spacing: 20) {
                 VStack(alignment: .leading) {
@@ -81,6 +88,36 @@ struct ContentView: View {
             .frame(width: 250)
         }
         .padding()
+        .toolbar {
+            Button("Export...", action: runExport)
+        }
+        .onCommand(#selector(AppCommands.export), perform: runExport)
+    }
+    
+    func runExport() {
+        Task {
+            await export()
+        }
+    }
+    
+    func export() async {
+        guard let png = RenderView(document: document).snapshot() else { return }
+        
+        let panel = NSSavePanel()
+        panel.allowedContentTypes = [.png]
+        
+        let result = await panel.begin()
+        
+        guard
+            result == .OK,
+            let url = panel.url
+        else { return }
+        
+        do {
+            try png.write(to: url)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     
